@@ -30,24 +30,14 @@ rebuild-spark: ## rebuild spark container
 	docker-compose up --no-deps -d spark
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-rebuild-php73: ## rebuild php-fpm-7.3
-	clear
-	docker-compose up -d --build php-fpm-7.3
-	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
-rebuild-php74: ## rebuild php-fpm-7.4
-	clear
-	docker-compose up -d --build php-fpm-7.4
-	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
 rebuild-php83: ## rebuild php-fpm-8.3
 	clear
 	docker-compose up -d --build php-fpm-8.3
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-rebuild-mysql: ## rebuild mysql (warning: new version probably datafolder and files incompatibility)
+rebuild-mariadb: ## rebuild mariadb
 	clear
-	docker-compose up -d --build mysql
+	docker-compose up -d --build mariadb
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 rebuild-pg: ## rebuild postgres
@@ -60,20 +50,9 @@ rebuild-redis: ## rebuild redis
 	docker-compose up -d --build redis
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-rebuild-deno: ## rebuild ubuntu-deno
+rebuild-py: ## rebuild py-3.15
 	clear
-	docker-compose up -d --build ubuntu-deno
-	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
-rebuild-deno-watch: ## stop ubuntu-deno y restart con watch
-	clear
-	docker-compose stop ubuntu-deno
-	docker-compose watch ubuntu-deno
-	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
-rebuild-py: ## rebuild py-3.10
-	clear
-	docker-compose up -d --build py-3.10
+	docker-compose up -d --build py-3.15
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 rebuild-n8n: ## rebuild n8n
@@ -92,20 +71,14 @@ destroy-all: ## destroy container and image
 ssh-apache: ## connect to  cont-lr-apache
 	docker exec -it --user root cont-lr-apache bash
 
-ssh-php73: ## connect to  cont-php-fpm-7.3
-	docker exec -it --user root cont-php-fpm-7.3 bash
-
-ssh-php74: ## connect to  cont-php-fpm-7.4
-	docker exec -it --user root cont-php-fpm-7.4 bash
-
 ssh-php83: ## connect to  cont-php-fpm-8.3
 	docker exec -it --user root cont-php-fpm-8.3 bash
 
 ssh-redis: ## connect to  cont-redis
 	docker exec -it --user root cont-redis sh
 
-ssh-mysql: ## connect to cont-lr-mysql
-	docker exec -it --user root cont-lr-mysql bash
+ssh-mariadb: ## connect to cont-lr-mariadb
+	docker exec -it --user root cont-lr-mariadb bash
 
 ssh-spark: ## connect to cont-lr-spark
 	docker exec -it --user root cont-lr-spark bash
@@ -113,11 +86,8 @@ ssh-spark: ## connect to cont-lr-spark
 ssh-pg: ## connect to cont-db-postgres
 	docker exec -it --user root cont-db-postgres bash
 
-ssh-deno: ## connect to deno container
-	docker exec -it --user root cont-ubuntu-deno bash
-
-ssh-py310: ## connect to  cont-py-3.10
-	docker exec -it --user root cont-py-3.10 bash
+ssh-py315: ## connect to cont-py-3.15
+	docker exec -it --user root cont-py-3.15 bash
 
 ssh-n8n: ## connect to  cont-n8n
 	docker exec -it --user root cont-n8n bash

@@ -1,9 +1,7 @@
-# https://hub.docker.com/_/postgres
-# 17.0 no admite pgvector
-# FROM postgres:17.0
-FROM ankane/pgvector
-
-#ARG POSTGRES_VERSION=15
+# https://hub.docker.com/r/pgvector/pgvector
+# postgres 18 (última estable) con pgvector ya compilado (sustituye a ankane/pgvector, PG15)
+# ⚠️ PG18 guarda los datos en /var/lib/postgresql/18/docker: el volumen se monta en /var/lib/postgresql
+FROM pgvector/pgvector:pg18
 
 RUN apt-get update \
     && apt-get -y install --no-install-recommends \

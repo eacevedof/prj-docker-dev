@@ -3,10 +3,10 @@
 .env
 **/.DS_Store
 
-mysql/initdb
-mysql/mysql
-mysql/tmp
-mysql/duckdb
+mariadb/initdb
+mariadb/data
+mariadb/tmp
+mariadb/duckdb-data
 
 spark/tmp
 spark/duckdb
@@ -28,8 +28,6 @@ apache/vhosts/*
 apache/www/html/ci-commons
 apache/www/html/ci-commons.zip
 
-deno/www
-deno/www/app-dotlake
 /apache/www/
 
 python/www

@@ -65,38 +65,6 @@ services:
       - "yii-api.local:host-gateway"
       - "host.docker.internal:host-gateway"
 
-  php-fpm-7.3:
-    build: ./fpm/7.3
-    container_name: cont-php-fpm-7.3
-    hostname: php-fpm-7-3
-    environment:
-      TZ: "UTC"
-      # XDEBUG: 9003 PHP_IDE_CONFIG necesario para command-line debugging
-      PHP_IDE_CONFIG: serverName=ServXdebug3
-    volumes:
-      - ./apache/www:/var/www
-
-  php-fpm-7.4:
-    build: ./fpm/7.4
-    container_name: cont-php-fpm-7.4
-    hostname: php-fpm-7-4
-    environment:
-      TZ: "UTC"
-      # XDEBUG: 9005 PHP_IDE_CONFIG necesario para command-line debugging
-      PHP_IDE_CONFIG: serverName=ServXdebug5
-    volumes:
-      - ./apache/www:/var/www
-    extra_hosts:
-      - "local-base:host-gateway"
-      - "local-1858:host-gateway"
-      - "local-1859:host-gateway"
-      - "local-3455:host-gateway"
-      - "local-3848:host-gateway"
-      - "local-allbbva:host-gateway"
-      - "local-3007:host-gateway"
-      - "local-3015:host-gateway"
-      - "host.docker.internal:host-gateway"
-
   php-fpm-8.3:
     build: ./fpm/8.3
     container_name: cont-php-fpm-8.3
@@ -114,46 +82,28 @@ services:
       - "mid-lznews.local:host-gateway"
       - "host.docker.internal:host-gateway"
 
-  py-3.10:
-    build: ./python/3.10
-    container_name: cont-py-3.10
-    hostname: py-3-10
+  py-3.15:
+    build: ./python/3.15
+    container_name: cont-py-3.15
+    hostname: py-3-15
     environment:
       TZ: "UTC"
     volumes:
       - ./python/www:/var/www
       - ./python/cli:/var/cli
 
-  ubuntu-deno:
-    build: ./deno
-    container_name: cont-ubuntu-deno
-    hostname: ubuntu-deno
+  mariadb:
+    build: ./mariadb
+    container_name: cont-lr-mariadb
+    hostname: lr-mariadb
     environment:
       TZ: "UTC"
+      MARIADB_ROOT_PASSWORD: root
     volumes:
-      - ./deno/www:/www
-      - ../app_shared:/app_shared
-    ports:
-      - "5500:5500" # con .lake
-      - "5600:5600"
-      - "5700:5700"
-      - "5800:5800"
-      - "5900:5900" # ms antiphising
-
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  mysql:
-    build: ./mysql
-    container_name: cont-lr-mysql
-    hostname: lr-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./mysql/initdb:/docker-entrypoint-initdb.d/
-      - ./mysql/mysql:/var/lib/mysql
-      - ./mysql/tmp:/tmp
-      - ./mysql/duckdb:/duckdb
+      - ./mariadb/initdb:/docker-entrypoint-initdb.d/
+      - ./mariadb/data:/var/lib/mysql
+      - ./mariadb/tmp:/tmp
+      - ./mariadb/duckdb-data:/duckdb/data
     ports:
       - "3306:3306"
 
@@ -186,7 +136,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     volumes:
-      - ./postgres/postgresql/data:/var/lib/postgresql/data
+      - ./postgres/postgresql:/var/lib/postgresql
       - ./postgres/tmp:/tmp
       - ../app_shared:/app_shared
     ports:
