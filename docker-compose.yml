@@ -164,7 +164,10 @@ services:
     volumes:
       - ./redis/data:/data
 
+  # ⏸ standby (2026-11-15): docker.n8n.io devuelve 429 al resolver la imagen. Fuera del up/build por defecto;
+  # se levanta a mano con: make rebuild-n8n  (docker-compose --profile standby up -d --build n8n)
   n8n:
+    profiles: ["standby"]
     build:
       context: ./n8n
     container_name: cont-n8n

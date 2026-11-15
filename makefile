@@ -55,9 +55,9 @@ rebuild-py: ## rebuild py-3.15
 	docker-compose up -d --build py-3.15
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-rebuild-n8n: ## rebuild n8n
+rebuild-n8n: ## rebuild n8n (standby: fuera del up por defecto)
 	clear
-	docker-compose up -d --build n8n
+	docker-compose --profile standby up -d --build n8n
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 rebuild-kafka-br1: ## rebuild kafka-br1 (broker 1)
