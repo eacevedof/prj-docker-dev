@@ -144,14 +144,6 @@ services:
       - "5432:5432"
       - "6000-6010:6000-6010"
 
-  postgres-adm:
-    image: adminer
-    restart: always
-    container_name: cont-db-adminer
-    hostname: db-adminer
-    ports:
-      - 7000:8080
-
   redis:
     build:
       context: ./redis
@@ -187,11 +179,12 @@ services:
       - ./n8n/data:/home/node/.n8n
 
   kafka-br1:
-    image: apache/kafka:latest
+    image: apache/kafka:4.4.0 # versión fijada (antes :latest)
     container_name: cont-kafka-br1
     hostname: host-kafka-br1
     environment:
       KAFKA_NODE_ID: 1
+      KAFKA_LOG_DIRS: /var/lib/kafka/data # sin esto la imagen escribe en /tmp y el volumen no persiste
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
@@ -209,8 +202,13 @@ services:
       KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 300000
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
     volumes:
-      - ./kafka/data:/var/lib/kafka/data
+      # volumen con nombre: sobre un bind mount de Windows (NTFS) Kafka no puede renombrar
+      # la carpeta de un topic al borrarlo (AccessDeniedException) y apaga el broker
+      - kafka-data:/var/lib/kafka/data
       - ./kafka/logs:/var/lib/kafka/logs
       - ../app_shared:/app_shared
     ports:
       - "9092:9092"
+
+volumes:
+  kafka-data:
