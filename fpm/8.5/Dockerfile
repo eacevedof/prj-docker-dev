@@ -1,4 +1,5 @@
-FROM php:8.3-fpm
+# https://hub.docker.com/_/php — 8.5 última estable (8.6 aún en RC)
+FROM php:8.5-fpm
 
 RUN apt-get update \
     && apt-get -y install --no-install-recommends \
@@ -12,9 +13,9 @@ RUN apt-get install -y --no-install-recommends \
        unzip \
        git \
        curl \
-    && docker-php-ext-install intl pdo pdo_mysql gd zip mysqli \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-enable opcache
+    && docker-php-ext-install intl pdo pdo_mysql gd zip mysqli
+
+# opcache: desde PHP 8.5 viene compilado dentro (no se instala como extensión)
 
 # Install Xdebug
 RUN pecl install xdebug \
@@ -31,8 +32,8 @@ RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php \
 
 RUN composer --version
 
-COPY ./xdebug-8.3.ini /usr/local/etc/php/conf.d
-COPY ./php-8.3.ini /usr/local/etc/php/conf.d
+COPY ./xdebug-8.5.ini /usr/local/etc/php/conf.d
+COPY ./php-8.5.ini /usr/local/etc/php/conf.d
 
 RUN touch /tmp/xdebug.log \
     && chmod 777 /tmp/xdebug.log

@@ -30,9 +30,9 @@ rebuild-spark: ## rebuild spark container
 	docker-compose up --no-deps -d spark
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-rebuild-php83: ## rebuild php-fpm-8.3
+rebuild-php85: ## rebuild php-fpm-8.5
 	clear
-	docker-compose up -d --build php-fpm-8.3
+	docker-compose up -d --build php-fpm-8.5
 	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 rebuild-mariadb: ## rebuild mariadb
@@ -71,8 +71,8 @@ destroy-all: ## destroy container and image
 ssh-apache: ## connect to  cont-lr-apache
 	docker exec -it --user root cont-lr-apache bash
 
-ssh-php83: ## connect to  cont-php-fpm-8.3
-	docker exec -it --user root cont-php-fpm-8.3 bash
+ssh-php85: ## connect to  cont-php-fpm-8.5
+	docker exec -it --user root cont-php-fpm-8.5 bash
 
 ssh-redis: ## connect to  cont-redis
 	docker exec -it --user root cont-redis sh

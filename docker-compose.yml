@@ -65,10 +65,10 @@ services:
       - "yii-api.local:host-gateway"
       - "host.docker.internal:host-gateway"
 
-  php-fpm-8.3:
-    build: ./fpm/8.3
-    container_name: cont-php-fpm-8.3
-    hostname: php-fpm-8-3
+  php-fpm-8.5:
+    build: ./fpm/8.5
+    container_name: cont-php-fpm-8.5
+    hostname: php-fpm-8-5
     environment:
       TZ: "UTC"
       # XDEBUG: 9006 PHP_IDE_CONFIG necesario para command-line debugging

@@ -58,7 +58,7 @@ alias aliases='aliases'
 
 [[ "$PWD" == "/" ]] && cd /var/www/
 
-# =========== 8.3 only ===========
+# =========== laravel ===========
 artisan() {
     local arg="$1"
     php artisan "$arg"
